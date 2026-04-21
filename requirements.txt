@@ -4,3 +4,4 @@ youtube-transcript-api
 bcrypt
 groq
 requests
+beautifulsoup4
