@@ -43,23 +43,22 @@ def download_thumbnail(video_id):
         
 def get_transcript(video_id, include_timestamps=False):
     from youtube_transcript_api import YouTubeTranscriptApi
-    from youtube_transcript_api._http_client import HttpClient
     import streamlit as st
     proxy_url = st.secrets["PROXY_URL"]
-    client = HttpClient(proxies={"http": proxy_url, "https": proxy_url})
-    api = YouTubeTranscriptApi(http_client=client)
-    fetched = api.fetch(video_id)
+    fetched = YouTubeTranscriptApi().get_transcript(
+        video_id,
+        proxies={"http": proxy_url, "https": proxy_url}
+    )
     if include_timestamps:
-        # Format as [M:SS] text for each segment
         lines = []
         for s in fetched:
-            minutes = int(s.start // 60)
-            seconds = int(s.start % 60)
+            minutes = int(s['start'] // 60)
+            seconds = int(s['start'] % 60)
             timestamp = f"[{minutes}:{seconds:02d}]"
-            lines.append(f"{timestamp} {s.text}")
+            lines.append(f"{timestamp} {s['text']}")
         return ' '.join(lines)
     else:
-        transcript_str_lst = [s.text for s in fetched]
+        transcript_str_lst = [s['text'] for s in fetched]
         return ' '.join(transcript_str_lst)
 
 if __name__ == "__main__":
