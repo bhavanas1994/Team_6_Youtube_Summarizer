@@ -42,24 +42,15 @@ def download_thumbnail(video_id):
         handler.write(img_data)     
         
 def get_transcript(video_id, include_timestamps=False):
-    from youtube_transcript_api import YouTubeTranscriptApi
     import streamlit as st
-    proxy_url = st.secrets["PROXY_URL"]
-    fetched = YouTubeTranscriptApi().get_transcript(
-        video_id,
-        proxies={"http": proxy_url, "https": proxy_url}
-    )
-    if include_timestamps:
-        lines = []
-        for s in fetched:
-            minutes = int(s['start'] // 60)
-            seconds = int(s['start'] % 60)
-            timestamp = f"[{minutes}:{seconds:02d}]"
-            lines.append(f"{timestamp} {s['text']}")
-        return ' '.join(lines)
-    else:
-        transcript_str_lst = [s['text'] for s in fetched]
-        return ' '.join(transcript_str_lst)
+    import requests
+    api_key = st.secrets["SUPADATA_API_KEY"]
+    url = f"https://api.supadata.ai/v1/youtube/transcript?videoId={video_id}&text=true"
+    headers = {"x-api-key": api_key}
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    return data.get("content", "Transcript not available")
+    
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
