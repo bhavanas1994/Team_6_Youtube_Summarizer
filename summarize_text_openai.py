@@ -23,9 +23,10 @@ def summarize_text_openai(text, lang="English", size="topic"):
             "The end timestamp of one section should be the start timestamp of the next."
         )
     }
+    import streamlit as st
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-    client = OpenAI(api_key="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") # Pavithra's OpenAI API key
-
+   
     prompt = f"{LENGTH_CONFIG[size]}\n\nRespond in {lang}.\n\nTranscript:\n{text}"
     
 
