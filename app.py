@@ -2,8 +2,8 @@ import streamlit as st
 import os
 import sqlite3
 from scrape_youtube import extract_video_id, get_transcript, extract_metadata, download_thumbnail
-from summarize_text_groq import summarize_text_groq
-from summarize_text_openai import summarize_text_openai
+#  from summarize_text_groq import summarize_text_groq
+from summarize_text_groq import summarize_text_groq as summarize_text_openai
 from init_db import initialize_database
 import bcrypt
 
