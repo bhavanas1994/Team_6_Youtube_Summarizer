@@ -5,13 +5,15 @@ from bs4 import BeautifulSoup
 from youtube_transcript_api import YouTubeTranscriptApi
 
 def extract_video_id(url):
-    # Regular expression to extract video ID from URL
+    # Handle youtu.be short links
+    match = re.search(r"youtu\.be/([a-zA-Z0-9_-]+)", url)
+    if match:
+        return match.group(1)
+    # Handle youtube.com/watch?v= links
     match = re.search(r"v=([a-zA-Z0-9_-]+)", url)
     if match:
         return match.group(1)
-    else:
-        raise ValueError("Invalid YouTube URL")
-
+    raise ValueError("Invalid YouTube URL")
 def extract_metadata(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, features="html.parser")
