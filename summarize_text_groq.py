@@ -23,7 +23,7 @@ def summarize_text_groq(text, lang="English", size="medium"):
             "The end timestamp of one section should be the start timestamp of the next."
         )
     }
-    client = Groq(api_key="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") # other
+    client = Groq(api_key="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") # other
     # client = Groq(api_key = "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") # Pavithra's account
     prompt = f"{LENGTH_CONFIG[size]}\n\nRespond in {lang}.\n\nTranscript:\n{text}"
     response = client.chat.completions.create(
