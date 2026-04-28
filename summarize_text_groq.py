@@ -27,7 +27,7 @@ def summarize_text_groq(text, lang="English", size="medium"):
     # client = Groq(api_key = "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") # Pavithra's account
     prompt = f"{LENGTH_CONFIG[size]}\n\nRespond in {lang}.\n\nTranscript:\n{text}"
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-8b-instant",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1024
     )
